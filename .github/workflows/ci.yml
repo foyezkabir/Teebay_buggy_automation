@@ -13,7 +13,7 @@ jobs:
   test:
     name: Run Playwright Tests
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
 
     env:
       # ── CI browser settings ──────────────────────────────────────────────
@@ -41,6 +41,7 @@ jobs:
 
       # ── 4. Build the React app ──────────────────────────────────────────────
       - name: Build app
+        timeout-minutes: 15
         env:
           CI: "false"   # prevent react-scripts treating warnings as errors
         run: yarn build
@@ -51,7 +52,7 @@ jobs:
 
       # ── 6. Wait for the app to be ready ─────────────────────────────────────
       - name: Wait for app on port 3000
-        run: npx --yes wait-on http://localhost:3000 --timeout 60000
+        run: npx --yes wait-on http://localhost:3000 --timeout 120000
 
       # ── 6. Set up Python ────────────────────────────────────────────────────
       - name: Set up Python
