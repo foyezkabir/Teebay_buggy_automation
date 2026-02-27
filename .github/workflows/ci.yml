@@ -39,20 +39,20 @@ jobs:
       - name: Install app dependencies
         run: yarn install --frozen-lockfile
 
-      # ── 4. Build the React app ──────────────────────────────────────────────
-      - name: Build app
-        timeout-minutes: 15
+      # ── 4. Start the React dev server in the background ─────────────────────
+      # We use the dev server (not a production build) because the production
+      # build's static serving causes PersistGate/redux-persist hydration issues
+      # that prevent React from mounting in headless Chromium.
+      - name: Start teebay-buggy dev server
         env:
-          CI: "false"   # prevent react-scripts treating warnings as errors
-        run: yarn build
+          BROWSER: "none"   # suppress browser auto-launch
+          CI: "false"       # prevent react-scripts treating warnings as errors
+          PORT: "3000"
+        run: yarn start &
 
-      # ── 5. Serve the built app in the background ────────────────────────────
-      - name: Serve built app on port 3000
-        run: npx --yes serve -s build -l 3000 &
-
-      # ── 6. Wait for the app to be ready ─────────────────────────────────────
+      # ── 5. Wait for the dev server – allow up to 5 min to compile ───────────
       - name: Wait for app on port 3000
-        run: npx --yes wait-on http://localhost:3000 --timeout 120000
+        run: npx --yes wait-on http://localhost:3000 --timeout 300000
 
       # ── 6. Set up Python ────────────────────────────────────────────────────
       - name: Set up Python
