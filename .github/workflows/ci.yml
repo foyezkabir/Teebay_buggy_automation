@@ -39,17 +39,19 @@ jobs:
       - name: Install app dependencies
         run: yarn install --frozen-lockfile
 
-      # ── 4. Start the React app in the background ────────────────────────────
-      - name: Start teebay-buggy app
+      # ── 4. Build the React app ──────────────────────────────────────────────
+      - name: Build app
         env:
-          BROWSER: "none"   # suppress browser auto-launch
-          CI: "false"       # prevent react-scripts treating warnings as errors
-          PORT: "3000"
-        run: yarn start &
+          CI: "false"   # prevent react-scripts treating warnings as errors
+        run: yarn build
 
-      # ── 5. Wait for the app to be ready ─────────────────────────────────────
+      # ── 5. Serve the built app in the background ────────────────────────────
+      - name: Serve built app on port 3000
+        run: npx --yes serve -s build -l 3000 &
+
+      # ── 6. Wait for the app to be ready ─────────────────────────────────────
       - name: Wait for app on port 3000
-        run: npx --yes wait-on http://localhost:3000 --timeout 120000
+        run: npx --yes wait-on http://localhost:3000 --timeout 60000
 
       # ── 6. Set up Python ────────────────────────────────────────────────────
       - name: Set up Python
