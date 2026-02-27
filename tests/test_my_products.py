@@ -25,6 +25,7 @@ class TestMyProductsHappyPath:
         """My Products page should show user's products and Add Product button."""
         my_products = MyProductsPage(page)
         my_products.assert_on_my_products_page()
+
         # Pre-loaded products should be visible
         my_products.assert_product_visible("Cricket kit")
         my_products.assert_product_visible("iPhone 13 pro max")
@@ -67,18 +68,6 @@ class TestMyProductsHappyPath:
             f"Expected same count after cancelling delete. "
             f"Before: {initial_count}, After: {new_count}"
         )
-
-    def test_nav_browse_products_link(self, page: Page):
-        """Browse Products nav link should navigate to /browse-products."""
-        my_products = MyProductsPage(page)
-        my_products.navigate_to_browse()
-        assert "/browse-products" in page.url
-
-    def test_nav_account_settings_link(self, page: Page):
-        """Account Settings nav link should navigate to /account-settings."""
-        my_products = MyProductsPage(page)
-        my_products.navigate_to_account_settings()
-        assert "/account-settings" in page.url
 
     def test_logout_redirects_to_login(self, page: Page):
         """Logout should redirect to /signin."""

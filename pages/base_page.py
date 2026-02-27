@@ -4,8 +4,7 @@ Provides common navigation and waiting utilities.
 """
 from playwright.sync_api import Page, expect
 
-
-BASE_URL = "http://localhost:3000"
+from config import BASE_URL
 
 
 class BasePage:

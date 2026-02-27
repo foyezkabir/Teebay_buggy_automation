@@ -26,7 +26,7 @@ def go_to_register(page: Page):
 
 
 class TestRegistrationHappyPath:
-    """Positive tests – happy path."""
+    """Positive tests - happy path."""
 
     @pytest.mark.smoke
     def test_registration_page_renders_correctly(self, page: Page):
@@ -46,14 +46,16 @@ class TestRegistrationHappyPath:
         """
         Submitting a fully filled + valid registration form should attempt
         to create the user. The backend always returns a server-error toast
-        (known bug – backend not implemented), but the form should submit
+        (known bug - backend not implemented), but the form should submit
         without frontend validation errors.
         """
         reg = RegisterPage(page)
         reg.fill_form(**NEW_USER)
         reg.click_register()
+
         # The happy-path expectation: no frontend validation errors visible
         expect(reg.loc.validation_errors).to_have_count(0, timeout=3000)
+        
         # Backend returns error (known bug) – assert the toast appears
         reg.assert_error_toast_visible()
 

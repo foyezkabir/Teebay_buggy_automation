@@ -49,9 +49,7 @@ class TestEditProductHappyPath:
         edit_page.assert_title_value("Updated Cricket Kit")
         edit_page.assert_purchase_price_value("750")
         edit_page.assert_rent_price_value("150")
-        expect(edit_page.loc.description_textarea).to_have_value(
-            "Updated description text for testing."
-        )
+        expect(edit_page.loc.description_textarea).to_have_value("Updated description text for testing.")
 
         # Clicking save should not produce an error toast
         edit_page.click_save()

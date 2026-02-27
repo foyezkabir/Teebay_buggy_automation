@@ -84,14 +84,15 @@ class TestProductDetailsHappyPath:
         details = ProductDetailsPage(page)
         details.goto(FUNSHINE_BEAR_ID)
 
-        # Step 1: open modal and cancel – button should still be visible
+        # Step 1: open modal and cancel button should still be visible
         details.click_buy()
         details.assert_buy_confirmation_modal_visible()
         details.cancel_buy()
         expect(details.loc.buy_confirmation_text).to_be_hidden(timeout=3000)
         details.assert_buy_button_visible()
 
-        # Step 2: open modal again and confirm – product should become SOLD
+        # Step 2: open modal again and confirm product should become SOLD
+        details.click_buy()
         details.confirm_buy()
         page.wait_for_timeout(500)
         details.goto(FUNSHINE_BEAR_ID)
@@ -112,8 +113,10 @@ class TestProductDetailsHappyPath:
         expect(details.loc.rent_start_date_input).to_be_hidden(timeout=3000)
 
         # Step 2: open modal again and confirm with valid dates
+        details.click_rent()
         details.confirm_rent("2026-03-01", "2026-03-10")
         page.wait_for_timeout(500)
+
         # After booking, rent history should show the booked year
         details.goto(FUNSHINE_BEAR_ID)
         expect(page.get_by_text("2026").first).to_be_visible(timeout=5000)

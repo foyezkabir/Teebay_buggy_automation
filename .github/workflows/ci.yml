@@ -1,0 +1,96 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  # Allow manual triggering from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Playwright Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      # ── CI browser settings ──────────────────────────────────────────────
+      HEADED: "false"
+      SLOW_MO: "0"
+      # ── Test credentials (override via repo Secrets if needed) ───────────
+      TEST_EMAIL: ${{ secrets.TEST_EMAIL || 'testuser@teebay.com' }}
+      TEST_PASSWORD: ${{ secrets.TEST_PASSWORD || '123456' }}
+
+    steps:
+      # ── 1. Check out automation repo ──────────────────────────────────────
+      - name: Checkout automation repo
+        uses: actions/checkout@v4
+
+      # ── 2. Clone the Teebay app ───────────────────────────────────────────
+      - name: Clone teebay-buggy app
+        run: |
+          git clone https://github.com/ehsanur-rahman-sazim/teebay-buggy.git teebay-buggy
+
+      # ── 3. Set up Node.js + Yarn cache ────────────────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "yarn"
+          cache-dependency-path: teebay-buggy/yarn.lock
+
+      # ── 4. Install app dependencies ───────────────────────────────────────
+      - name: Install app dependencies
+        working-directory: teebay-buggy
+        run: yarn install --frozen-lockfile
+
+      # ── 5. Start the React app in the background ──────────────────────────
+      - name: Start teebay-buggy app
+        working-directory: teebay-buggy
+        env:
+          BROWSER: "none"   # suppress browser launch
+          CI: "false"       # prevent react-scripts from treating warnings as errors
+          PORT: "3000"
+        run: yarn start &
+
+      # ── 6. Wait for the app to be ready ───────────────────────────────────
+      - name: Wait for app on port 3000
+        run: npx --yes wait-on http://localhost:3000 --timeout 120000
+
+      # ── 7. Set up Python ──────────────────────────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      # ── 8. Install Python dependencies ────────────────────────────────────
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      # ── 9. Install Playwright browsers + system dependencies ──────────────
+      - name: Install Playwright browsers
+        run: python -m playwright install chromium --with-deps
+
+      # ── 10. Run tests ─────────────────────────────────────────────────────
+      - name: Run Playwright tests
+        run: pytest --browser chromium
+
+      # ── 11. Upload test reports (always, even on failure) ─────────────────
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-html
+          path: reports/report.html
+          retention-days: 14
+
+      - name: Upload JSON report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-json
+          path: reports/report.json
+          retention-days: 14

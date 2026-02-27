@@ -30,6 +30,7 @@ class MyProductsPage(BasePage):
 
     def delete_product_at(self, index: int = 0):
         """Delete the product card at the given 0-based index."""
+        
         # Trash-icon buttons are icon-only Semantic UI buttons
         self.page.locator('button:has(i.trash)').nth(index).click()
         expect(self.loc.delete_confirmation_text).to_be_visible(timeout=5000)
