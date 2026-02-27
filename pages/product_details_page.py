@@ -21,7 +21,7 @@ class ProductDetailsPage(BasePage):
         self.loc.buy_button.click()
 
     def confirm_buy(self):
-        self.click_buy()
+        # Modal must already be open before calling this method
         expect(self.loc.buy_confirmation_text).to_be_visible(timeout=3000)
         self.loc.buy_confirm_button.click()
 
@@ -29,6 +29,8 @@ class ProductDetailsPage(BasePage):
         # Modal must already be open before calling this method
         expect(self.loc.buy_confirmation_text).to_be_visible(timeout=3000)
         self.loc.buy_cancel_button.click()
+        # Wait for dimmer/modal to fully close before next interaction
+        self.page.locator(".ui.page.modals.dimmer").wait_for(state="hidden", timeout=10000)
 
     # ── Rent actions ───────────────────────────────────────────────────────
     def click_rent(self):
@@ -40,13 +42,15 @@ class ProductDetailsPage(BasePage):
         self.loc.rent_end_date_input.fill(end_date)
 
     def confirm_rent(self, start_date: str, end_date: str):
-        self.click_rent()
+        # Modal must already be open before calling this method
         self.fill_rent_dates(start_date, end_date)
         self.loc.book_rent_button.click()
 
     def cancel_rent(self):
         # Modal must already be open before calling this method
         self.loc.rent_cancel_button.click()
+        # Wait for dimmer/modal to fully close before next interaction
+        self.page.locator(".ui.page.modals.dimmer").wait_for(state="hidden", timeout=10000)
 
     # ── Assertions ─────────────────────────────────────────────────────────
     def assert_on_product_details_page(self):
