@@ -47,7 +47,7 @@ class ProductDetailsLocators:
     # ── Action buttons ─────────────────────────────────────────────────────
     @property
     def rent_button(self):
-        return self.page.get_by_role("button", name="Rent")
+        return self.page.get_by_role("button", name="Rent", exact=True)
 
     @property
     def buy_button(self):

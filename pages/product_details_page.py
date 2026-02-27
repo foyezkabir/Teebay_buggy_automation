@@ -26,7 +26,7 @@ class ProductDetailsPage(BasePage):
         self.loc.buy_confirm_button.click()
 
     def cancel_buy(self):
-        self.click_buy()
+        # Modal must already be open before calling this method
         expect(self.loc.buy_confirmation_text).to_be_visible(timeout=3000)
         self.loc.buy_cancel_button.click()
 
@@ -45,7 +45,7 @@ class ProductDetailsPage(BasePage):
         self.loc.book_rent_button.click()
 
     def cancel_rent(self):
-        self.click_rent()
+        # Modal must already be open before calling this method
         self.loc.rent_cancel_button.click()
 
     # ── Assertions ─────────────────────────────────────────────────────────
