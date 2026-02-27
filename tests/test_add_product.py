@@ -18,7 +18,7 @@ def navigate(page, login):
 
 
 class TestAddProductHappyPath:
-    """Positive tests – happy path."""
+    """Positive tests - happy path."""
 
     @pytest.mark.smoke
     def test_add_product_page_renders_correctly(self, page: Page):
@@ -37,7 +37,8 @@ class TestAddProductHappyPath:
     def test_add_product_successfully(self, page: Page):
         """
         Filling all required fields (including multiple categories) and submitting
-        should create the product, show a success toast, and redirect to /my-products.
+        should create the product, show a success toast, redirect to /my-products,
+        and display the new product in the list.
         """
         add_page = AddProductPage(page)
         add_page.fill_title("Test Bicycle")
@@ -50,18 +51,4 @@ class TestAddProductHappyPath:
         add_page.click_add_product()
         add_page.assert_success_toast()
         add_page.assert_redirected_to_my_products()
-        # Confirm product appears in my products list
         expect(page.get_by_text("Test Bicycle", exact=True).first).to_be_visible()
-
-    def test_add_product_redirects_to_my_products(self, page: Page):
-        """After successful add, user is redirected to /my-products."""
-        add_page = AddProductPage(page)
-        add_page.add_product(
-            title="Redirect Test Item",
-            categories=["Furniture"],
-            description="Just for redirect test.",
-            purchase_price="50",
-            rent_price="5",
-            rent_duration="Monthly",
-        )
-        add_page.assert_redirected_to_my_products()

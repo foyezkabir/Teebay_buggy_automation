@@ -17,7 +17,7 @@ def navigate(page, login):
 
 
 class TestBrowseProductsHappyPath:
-    """Positive tests – happy path."""
+    """Positive tests - happy path."""
 
     @pytest.mark.smoke
     def test_browse_page_renders_correctly(self, page: Page):
@@ -32,21 +32,13 @@ class TestBrowseProductsHappyPath:
         expect(browse_page.loc.clear_button).to_be_visible()
 
     @pytest.mark.smoke
-    def test_browse_shows_products_from_all_users(self, page: Page):
-        """Additional products (not owned by logged-in user) should be visible."""
+    def test_browse_shows_products_and_load_more(self, page: Page):
+        """Products from the shared pool should be visible and Load More button present."""
         browse_page = BrowseProductsPage(page)
         # These are from additionalProducts.json (not the user's own)
         browse_page.assert_product_visible("Funshine bear")
         browse_page.assert_product_visible("Blender")
-
-    def test_browse_shows_lawn_mower(self, page: Page):
-        """Additional products shared pool includes Lawn Mower."""
-        browse_page = BrowseProductsPage(page)
         browse_page.assert_product_visible("Lawn Mower")
-
-    def test_load_more_button_visible(self, page: Page):
-        """Load More button should be visible on initial page load."""
-        browse_page = BrowseProductsPage(page)
         browse_page.assert_load_more_visible()
 
     def test_load_more_loads_additional_products(self, page: Page):
@@ -58,31 +50,27 @@ class TestBrowseProductsHappyPath:
         # Page should still show browse page
         browse_page.assert_on_browse_page()
 
-    def test_filter_by_buy_shows_available_products(self, page: Page):
-        """Checking 'Buy Filters' and clicking Filter should apply the filter."""
+    def test_filters_and_clear_work_correctly(self, page: Page):
+        """Buy filter, Rent filter, and Clear button should all function correctly."""
         browse_page = BrowseProductsPage(page)
+
+        # Apply Buy filter
         browse_page.toggle_buy_filter()
         browse_page.click_filter()
         page.wait_for_timeout(500)
         browse_page.assert_on_browse_page()
 
-    def test_filter_by_rent_shows_rentable_products(self, page: Page):
-        """Checking 'Rent Filters' and clicking Filter should apply the filter."""
-        browse_page = BrowseProductsPage(page)
+        # Reset and apply Rent filter
+        browse_page.click_clear()
+        page.wait_for_timeout(300)
         browse_page.toggle_rent_filter()
         browse_page.click_filter()
         page.wait_for_timeout(500)
         browse_page.assert_on_browse_page()
 
-    def test_clear_button_resets_filters(self, page: Page):
-        """After applying a filter, clicking Clear should reset and show all products."""
-        browse_page = BrowseProductsPage(page)
-        browse_page.toggle_buy_filter()
-        browse_page.click_filter()
-        page.wait_for_timeout(300)
+        # Clear resets filters and restores all products
         browse_page.click_clear()
         page.wait_for_timeout(300)
-        # All products should be visible again
         browse_page.assert_product_visible("Funshine bear")
 
     def test_open_product_details_from_browse(self, page: Page):

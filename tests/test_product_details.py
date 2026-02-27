@@ -79,58 +79,41 @@ class TestProductDetailsHappyPath:
         details.assert_buy_button_not_visible()
 
     @pytest.mark.smoke
-    def test_buy_product_shows_confirmation_modal(self, page: Page):
-        """Clicking 'Buy' should show a confirmation modal."""
+    def test_buy_flow_modal_cancel_then_confirm(self, page: Page):
+        """Buy modal appears, cancel dismisses it, then confirm completes the purchase."""
         details = ProductDetailsPage(page)
         details.goto(FUNSHINE_BEAR_ID)
+
+        # Step 1: open modal and cancel – button should still be visible
         details.click_buy()
         details.assert_buy_confirmation_modal_visible()
+        details.cancel_buy()
+        expect(details.loc.buy_confirmation_text).to_be_hidden(timeout=3000)
+        details.assert_buy_button_visible()
 
-    def test_confirm_buy_purchases_product(self, page: Page):
-        """Confirming 'Yes!' should complete the purchase and update status."""
-        details = ProductDetailsPage(page)
-        details.goto(FUNSHINE_BEAR_ID)
+        # Step 2: open modal again and confirm – product should become SOLD
         details.confirm_buy()
         page.wait_for_timeout(500)
-        # After purchase, status should change  to SOLD
-        # Reload to verify state
         details.goto(FUNSHINE_BEAR_ID)
         details.assert_status_sold()
 
-    def test_cancel_buy_dismisses_modal(self, page: Page):
-        """Clicking 'Cancel' on the buy confirmation should dismiss modal."""
-        details = ProductDetailsPage(page)
-        details.goto(FUNSHINE_BEAR_ID)
-        details.cancel_buy()
-        # Modal should be gone – no confirmation text
-        expect(details.loc.buy_confirmation_text).to_be_hidden(timeout=3000)
-        # Buy button should still be visible
-        details.assert_buy_button_visible()
-
     @pytest.mark.smoke
-    def test_rent_product_shows_date_modal(self, page: Page):
-        """Clicking 'Rent' should open a date-picker modal."""
+    def test_rent_flow_modal_cancel_then_confirm(self, page: Page):
+        """Rent modal appears with correct buttons, cancel dismisses it, then confirm books the rent."""
         details = ProductDetailsPage(page)
         details.goto(FUNSHINE_BEAR_ID)
+
+        # Step 1: open modal and verify buttons, then cancel
         details.click_rent()
         details.assert_rent_confirmation_modal_visible()
         expect(details.loc.book_rent_button).to_be_visible()
         expect(details.loc.rent_cancel_button).to_be_visible()
-
-    def test_book_rent_with_valid_dates(self, page: Page):
-        """Booking a rent with valid start and end dates should succeed."""
-        details = ProductDetailsPage(page)
-        details.goto(FUNSHINE_BEAR_ID)
-        details.confirm_rent("2026-03-01", "2026-03-10")
-        page.wait_for_timeout(500)
-        # After booking, rent history should be updated
-        details.goto(FUNSHINE_BEAR_ID)
-        rent_history = page.get_by_text("2026").first
-        expect(rent_history).to_be_visible(timeout=5000)
-
-    def test_cancel_rent_dismisses_modal(self, page: Page):
-        """Clicking Cancel on rent modal should close it without booking."""
-        details = ProductDetailsPage(page)
-        details.goto(FUNSHINE_BEAR_ID)
         details.cancel_rent()
         expect(details.loc.rent_start_date_input).to_be_hidden(timeout=3000)
+
+        # Step 2: open modal again and confirm with valid dates
+        details.confirm_rent("2026-03-01", "2026-03-10")
+        page.wait_for_timeout(500)
+        # After booking, rent history should show the booked year
+        details.goto(FUNSHINE_BEAR_ID)
+        expect(page.get_by_text("2026").first).to_be_visible(timeout=5000)
