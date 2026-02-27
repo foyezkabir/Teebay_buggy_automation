@@ -1,0 +1,21 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+
+# Pytest
+.pytest_cache/
+reports/
+
+# Playwright auth state (contains session tokens)
+auth/auth.json
+
+# Allure results
+allure-results/
+allure-report/
+
+# OS
+.DS_Store
+Thumbs.db
