@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "Cricket kit",
+    "description": "2016 cricket kit brand new in box. Never used. Bought from the shop. Professional kit. Pick up item please.",
+    "categories": [
+      {
+        "id": 1,
+        "name": "Sporting Goods"
+      },
+      {
+        "id": 2,
+        "name": "Outdoor"
+      }
+    ],
+    "created_at": "2020-09-21",
+    "views": 156,
+    "purchase_price": 500,
+    "rent_price": 100,
+    "rent_duration_type": "daily",
+    "is_purchased": false,
+    "rent_history": []
+  },
+  {
+    "id": 2,
+    "title": "iPhone 13 pro max",
+    "description": "Latest iphone 13 max. Bought from the Apple store. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae",
+    "categories": [
+      {
+        "id": 3,
+        "name": "Electronics"
+      }
+    ],
+    "created_at": "2021-10-15",
+    "views": 146341,
+    "purchase_price": 1500,
+    "rent_price": 50,
+    "rent_duration_type": "hourly",
+    "is_purchased": false,
+    "rent_history": []
+  }
+]

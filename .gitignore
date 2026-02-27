@@ -5,6 +5,10 @@ __pycache__/
 *.pyo
 .Python
 
+# Node (React app)
+node_modules/
+build/
+
 # Pytest
 .pytest_cache/
 reports/

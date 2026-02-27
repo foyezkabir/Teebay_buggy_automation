@@ -1,0 +1,119 @@
+[
+  {
+    "id": 2134,
+    "title": "Last of Us Part II PS5 game",
+    "description": "Exclusive PS5 game",
+    "categories": [
+      {
+        "id": 3,
+        "name": "Electronics"
+      },
+      {
+        "id": 6,
+        "name": "Toys"
+      }
+    ],
+    "created_at": "2019-05-20",
+    "views": 200,
+    "purchase_price": 40,
+    "rent_price": 10,
+    "rent_duration_type": "daily",
+    "is_purchased": true,
+    "rent_history": []
+  },
+  {
+    "id": 5345,
+    "title": "Ikea couch",
+    "description": "L shaped couch",
+    "categories": [
+      {
+        "id": 4,
+        "name": "Furniture"
+      }
+    ],
+    "created_at": "2015-11-21",
+    "views": 202340,
+    "purchase_price": 10000,
+    "rent_price": 1000,
+    "rent_duration_type": "monthly",
+    "is_purchased": true,
+    "rent_history": [
+      {
+        "start_date": "2015-10-20",
+        "end_date": "2015-10-25"
+      }
+    ]
+  },
+  {
+    "id": 1241,
+    "title": "Funshine bear",
+    "description": "Original and best among the care bears",
+    "categories": [
+      {
+        "id": 6,
+        "name": "Toys"
+      }
+    ],
+    "created_at": "2015-07-21",
+    "views": 123,
+    "purchase_price": 50,
+    "rent_price": 1,
+    "rent_duration_type": "daily",
+    "is_purchased": false,
+    "rent_history": []
+  },
+  {
+    "id": 2432,
+    "title": "Blender",
+    "description": "Used fruit blender",
+    "categories": [
+      {
+        "id": 5,
+        "name": "Home Appliances"
+      }
+    ],
+    "created_at": "2014-07-15",
+    "views": 22,
+    "purchase_price": 1005,
+    "rent_price": 20,
+    "rent_duration_type": "weekly",
+    "is_purchased": false,
+    "rent_history": [
+      {
+        "start_date": "2022-01-01",
+        "end_date": "2022-12-12"
+      }
+    ]
+  },
+  {
+    "id": 678,
+    "title": "Lawn Mower",
+    "description": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.",
+    "categories": [
+      {
+        "id": 2,
+        "name": "Outdoor"
+      },
+      {
+        "id": 5,
+        "name": "Home Appliances"
+      }
+    ],
+    "created_at": "1995-07-04",
+    "views": 1222,
+    "purchase_price": 15421,
+    "rent_price": 3463,
+    "rent_duration_type": "annually",
+    "is_purchased": false,
+    "rent_history": [
+      {
+        "start_date": "2020-01-01",
+        "end_date": "2020-07-05"
+      },
+      {
+        "start_date": "2011-11-10",
+        "end_date": "2011-12-09"
+      }
+    ]
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Sporting Goods"
+  },
+  {
+    "id": 2,
+    "name": "Outdoor"
+  },
+  {
+    "id": 3,
+    "name": "Electronics"
+  },
+  {
+    "id": 4,
+    "name": "Furniture"
+  },
+  {
+    "id": 5,
+    "name": "Home Appliances"
+  },
+  {
+    "id": 6,
+    "name": "Toys"
+  }
+]
